@@ -2,9 +2,11 @@ package com.marcos.cursomc.services;
 
 import com.marcos.cursomc.domain.Categoria;
 import com.marcos.cursomc.repositories.CategoriaRepository;
+import com.marcos.cursomc.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Id;
 import java.util.Optional;
 
 @Service
@@ -15,6 +17,7 @@ public class CategoriaService {
 
     public Categoria buscar(Integer id){
         Optional<Categoria> obj = repo.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id
+            + ", Tipo: " + Categoria.class.getName()));
     }
 }
